@@ -3,7 +3,7 @@ import moment from "moment";
 import { IconButton, Table } from "../components";
 
 import "../styles/main.scss";
-import { MO_DDD_YYYY } from "../constants/dateTimeFormat";
+import { DO_MMM_YYYY } from "../constants/dateTimeFormat";
 import dummyList from "../dummy/couponList.json";
 
 const columns = [
@@ -38,9 +38,9 @@ const columns = [
     key: "validity",
     render: (text, records) => {
       console.log(records);
-      const formattedStartDate = moment(records.startDate).format(MO_DDD_YYYY);
+      const formattedStartDate = moment(records.startDate).format(DO_MMM_YYYY);
       const formattedExpiryDate = moment(records.expiryDate).format(
-        MO_DDD_YYYY
+        DO_MMM_YYYY
       );
 
       return (

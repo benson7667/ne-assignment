@@ -1,2 +1,2 @@
 // 8th Jul 2020, 31st Dec 2020
-export const MO_DDD_YYYY = "Mo DDD YYYY";
+export const DO_MMM_YYYY = "Do MMM YYYY";
