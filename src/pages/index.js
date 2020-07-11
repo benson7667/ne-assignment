@@ -1,16 +1,18 @@
-import React from "react";
+import React, { Component } from "react";
 import moment from "moment";
+
 import { IconButton, Table, Pagination } from "../components";
 
-import "../styles/main.scss";
 import { DO_MMM_YYYY } from "../constants/dateTimeFormat";
-import dummyList from "../dummy/couponList.json";
+import { DEFAULT_PAGINATION } from "../constants/pagination";
+import { fetchCoupons } from "../apis";
+import "../styles/main.scss";
 
-const columns = [
+const getColumns = (firstIndex) => [
   {
     title: "No",
     key: "no",
-    render: (text, records, index) => `${index + 1}`,
+    render: (text, records, index) => `${firstIndex + index + 1}`,
   },
   {
     title: "Coupon",
@@ -37,7 +39,6 @@ const columns = [
     title: "Validity",
     key: "validity",
     render: (text, records) => {
-      console.log(records);
       const formattedStartDate = moment(records.startDate).format(DO_MMM_YYYY);
       const formattedExpDate = moment(records.expiryDate).format(DO_MMM_YYYY);
 
@@ -70,11 +71,74 @@ const columns = [
   },
 ];
 
-const Home = () => (
-  <div style={{ maxWidth: 1280, margin: "0 auto", padding: 20 }}>
-    <Table columns={columns} dataSource={dummyList.data.coupon} />
-    <Pagination />
-  </div>
-);
+class Home extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      pageLimit: DEFAULT_PAGINATION.limit,
+      currentPage: DEFAULT_PAGINATION.page,
+      couponList: [],
+      totalCouponsCount: 0,
+    };
+  }
+
+  componentDidMount() {
+    this.getCouponList();
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    const { currentPage } = this.state;
+
+    // re-fetch list when user paginate to diff page
+    if (prevState.currentPage !== currentPage) {
+      this.getCouponList();
+    }
+  }
+
+  getCouponList = () => {
+    const { currentPage, pageLimit } = this.state;
+    const { couponList } = this.props;
+    const upperBoundary = currentPage * pageLimit;
+    const lowerBoundary = upperBoundary - pageLimit;
+    const currentPageCouponList = couponList.slice(
+      lowerBoundary,
+      upperBoundary
+    );
+    this.setState({ couponList: currentPageCouponList });
+  };
+
+  handlePaginationChange = (newCurrentPage) => {
+    this.setState({ currentPage: newCurrentPage });
+  };
+
+  render() {
+    const { currentPage, couponList, pageLimit } = this.state;
+    const { couponCount } = this.props;
+    const firstIndex = currentPage * pageLimit - pageLimit;
+
+    return (
+      <div style={{ maxWidth: 1280, margin: "0 auto", padding: 20 }}>
+        <Table columns={getColumns(firstIndex)} dataSource={couponList} />
+        <Pagination
+          currentPage={currentPage}
+          totalCount={couponCount}
+          pageLimit={pageLimit}
+          onChange={this.handlePaginationChange}
+        />
+      </div>
+    );
+  }
+}
+
+export async function getServerSideProps() {
+  const couponsData = await fetchCoupons();
+
+  return {
+    props: {
+      couponList: couponsData.data.coupon,
+      couponCount: couponsData.data.count,
+    },
+  };
+}
 
 export default Home;
