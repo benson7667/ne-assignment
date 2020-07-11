@@ -1,0 +1,34 @@
+@import "../../styles/colors.scss";
+
+.table {
+  &-container {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  //   table head
+  &-head {
+    color: $color-grey-83;
+    border-bottom: 1px solid $color-grey-e7;
+  }
+  &-head > tr > td {
+    padding: 20px;
+    font-size: 14px;
+    // color: $color-grey-53;
+  }
+
+  //   table body
+  &-body {
+    color: $color-grey-53;
+  }
+  &-body > tr {
+    border-bottom: 1px solid $color-grey-e7;
+  }
+  &-body > tr > td {
+    padding: 20px;
+    font-size: 14px;
+  }
+  &-body tr:nth-child(even) {
+    background-color: $color-grey-f8;
+  }
+}
