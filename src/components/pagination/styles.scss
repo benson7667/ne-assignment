@@ -1,0 +1,70 @@
+@import "../../styles/colors.scss";
+
+.pagination {
+  &-container {
+    color: $color-grey-83;
+    display: flex;
+    justify-content: space-between;
+    margin: 24px 0;
+  }
+
+  &-page {
+    &-controller {
+      display: flex;
+    }
+
+    &-prev,
+    &-next {
+      cursor: pointer;
+      font-size: 26px;
+      width: 55px;
+      height: 35px;
+      font-weight: bold;
+      margin: 0 10px;
+      text-align: center;
+      color: $color-grey-a7;
+
+      &:hover {
+        color: $color-green-32;
+      }
+    }
+
+    &-prev.disabled,
+    &-next.disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+
+      &:hover {
+        color: $color-grey-a7;
+      }
+    }
+
+    &-list {
+      display: flex;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    &-item {
+      cursor: pointer;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 0 10px;
+      width: 55px;
+      height: 35px;
+      border-radius: 4px;
+
+      &:hover {
+        border: 1px solid $color-green-32;
+        color: $color-green-32;
+        opacity: 0.5;
+      }
+    }
+    &-item.active {
+      border: 1px solid $color-green-32;
+      color: $color-green-32;
+    }
+  }
+}

@@ -1,13 +1,21 @@
 @import "../styles/colors.scss";
 
+.flex {
+  display: flex;
+}
+
+.justify-center {
+  justify-content: center;
+}
+
+.items-center {
+  align-items: center;
+}
+
 .mt4 {
   margin-top: 4px;
 }
 
 .c-grey-a7 {
   color: $color-grey-a7;
-}
-
-.pointer {
-  cursor: pointer;
 }

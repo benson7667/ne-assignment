@@ -1,6 +1,6 @@
 import React from "react";
 import moment from "moment";
-import { IconButton, Table } from "../components";
+import { IconButton, Table, Pagination } from "../components";
 
 import "../styles/main.scss";
 import { DO_MMM_YYYY } from "../constants/dateTimeFormat";
@@ -39,14 +39,12 @@ const columns = [
     render: (text, records) => {
       console.log(records);
       const formattedStartDate = moment(records.startDate).format(DO_MMM_YYYY);
-      const formattedExpiryDate = moment(records.expiryDate).format(
-        DO_MMM_YYYY
-      );
+      const formattedExpDate = moment(records.expiryDate).format(DO_MMM_YYYY);
 
       return (
         <div>
           <div>{formattedStartDate}</div>
-          <div className="c-grey-a7 mt4">{formattedExpiryDate}</div>
+          <div className="c-grey-a7 mt4">{formattedExpDate}</div>
         </div>
       );
     },
@@ -73,8 +71,9 @@ const columns = [
 ];
 
 const Home = () => (
-  <div style={{ maxWidth: 1280, margin: "0 auto" }}>
+  <div style={{ maxWidth: 1280, margin: "0 auto", padding: 20 }}>
     <Table columns={columns} dataSource={dummyList.data.coupon} />
+    <Pagination />
   </div>
 );
 
