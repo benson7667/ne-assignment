@@ -1,6 +1,6 @@
 import React from "react";
 import moment from "moment";
-import { Table } from "../components";
+import { IconButton, Table } from "../components";
 
 import "../styles/main.scss";
 import { MO_DDD_YYYY } from "../constants/dateTimeFormat";
@@ -61,10 +61,11 @@ const columns = [
     key: "actions",
     render: (text, records) => {
       return (
-        <img
-          className=""
-          src="https://storage.googleapis.com/coding_challenge_assets/vertical-ellipsis.svg"
-          onClick={() => alert(`Clicked action on id : ${records.id}`)}
+        <IconButton
+          iconSrc="https://storage.googleapis.com/coding_challenge_assets/vertical-ellipsis.svg"
+          onClick={() =>
+            alert(`You clicked action button on coupon-id:${records.id}`)
+          }
         />
       );
     },
