@@ -10,11 +10,17 @@
   &-head {
     color: $color-grey-83;
     border-bottom: 1px solid $color-grey-e7;
+
+    &-sorter-column {
+      cursor: pointer;
+      &:hover {
+        background-color: $color-grey-e7;
+      }
+    }
   }
   &-head > tr > td {
     padding: 20px;
     font-size: 14px;
-    // color: $color-grey-53;
   }
 
   //   table body

@@ -1,21 +1,38 @@
 @import "../styles/colors.scss";
 
+// flexbox
 .flex {
   display: flex;
 }
-
 .justify-center {
   justify-content: center;
 }
-
 .items-center {
   align-items: center;
 }
 
+// margin
+.ml8 {
+  margin-left: 8px;
+}
 .mt4 {
   margin-top: 4px;
 }
 
+// color
 .c-grey-a7 {
   color: $color-grey-a7;
+}
+.c-black {
+  color: $color-black;
+}
+
+// font-weight
+.fw7 {
+  font-weight: 700;
+}
+
+// cursor
+.pointer {
+  cursor: pointer;
 }

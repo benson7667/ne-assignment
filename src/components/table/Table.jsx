@@ -1,11 +1,26 @@
 import React, { Component } from "react";
+import cx from "classnames";
 import { array } from "prop-types";
 import "./styles.scss";
 
 class Table extends Component {
   renderTitleColumns = () => {
-    const { columns } = this.props;
-    return columns.map((column, index) => <td key={index}>{column.title}</td>);
+    const { columns, handleSort } = this.props;
+    const columnsTitle = columns.map((column, index) => {
+      const hasSorter = column.sorter;
+      return (
+        <td
+          className={cx({ "table-head-sorter-column": hasSorter })}
+          onClick={hasSorter ? handleSort(column.key) : null}
+          key={index}
+        >
+          <span>{column.title}</span>
+          {hasSorter && <span className="ml8 c-black">&#8645;</span>}
+        </td>
+      );
+    });
+
+    return columnsTitle;
   };
 
   renderRows = () => {

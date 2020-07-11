@@ -17,6 +17,7 @@ const getColumns = (firstIndex) => [
   {
     title: "Coupon",
     key: "couponCode",
+    sorter: true,
   },
   {
     title: "Discount",
@@ -79,6 +80,7 @@ class Home extends Component {
       currentPage: DEFAULT_PAGINATION.page,
       couponList: [],
       totalCouponsCount: 0,
+      sort: {},
     };
   }
 
@@ -111,6 +113,42 @@ class Home extends Component {
     this.setState({ currentPage: newCurrentPage });
   };
 
+  handleSort = (key) => () => {
+    const { sort } = this.state;
+
+    // the column not sorted yet
+    if (!sort[key]) {
+      sort[key] = true;
+      return this.sortColumnByAlphabets("asc", key);
+    }
+
+    // the column is sorted, reverse the sort again
+    const newSort = { ...sort };
+    delete newSort[key];
+    this.setState({ sort: newSort });
+    return this.sortColumnByAlphabets("desc", key);
+  };
+
+  sortColumnByAlphabets = (type = "asc", key) => {
+    const { couponList } = this.state;
+    const sortedCouponList = couponList.sort((a, b) => {
+      const textA = a[key].toUpperCase();
+      const textB = b[key].toUpperCase();
+
+      // sort in ascending order
+      if (type === "asc") {
+        return textA < textB ? -1 : textA > textB ? 1 : 0;
+      }
+
+      // sort in descending order
+      if (type === "desc") {
+        return textA < textB ? 1 : textA > textB ? -1 : 0;
+      }
+    });
+
+    this.setState({ couponList: sortedCouponList });
+  };
+
   render() {
     const { currentPage, couponList, pageLimit } = this.state;
     const { couponCount } = this.props;
@@ -118,7 +156,11 @@ class Home extends Component {
 
     return (
       <div style={{ maxWidth: 1280, margin: "0 auto", padding: 20 }}>
-        <Table columns={getColumns(firstIndex)} dataSource={couponList} />
+        <Table
+          columns={getColumns(firstIndex)}
+          dataSource={couponList}
+          handleSort={this.handleSort}
+        />
         <Pagination
           currentPage={currentPage}
           totalCount={couponCount}
