@@ -12,17 +12,18 @@ class Pagination extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      totalPage: this.initTotalPageValue(),
       paginationScale: this.initPaginationScale(),
     };
   }
 
   componentDidUpdate(prevProps) {
     const { currentPage, pageLimit, totalCount } = this.props;
-    const { paginationScale } = this.state;
+    const { paginationScale, totalPage } = this.state;
 
     // page changed
     if (prevProps.currentPage !== currentPage) {
-      const totalPage = getTotalPage(totalCount, pageLimit);
+      //   const totalPage = getTotalPage(totalCount, pageLimit);
       const newPaginationScale = getPaginationScale(
         paginationScale,
         currentPage,
@@ -31,6 +32,12 @@ class Pagination extends Component {
       this.setState({ paginationScale: newPaginationScale });
     }
   }
+
+  initTotalPageValue = () => {
+    const { totalCount, pageLimit } = this.props;
+    const totalPage = getTotalPage(totalCount, pageLimit);
+    return totalPage;
+  };
 
   initPaginationScale = () => {
     const { totalCount, pageLimit } = this.props;
@@ -56,6 +63,8 @@ class Pagination extends Component {
 
     return (
       <ul className="pagination-page-list">
+        {this.renderMorePrev()}
+
         {paginationScale.map((pageNumber) => (
           <li
             id={pageNumber}
@@ -68,27 +77,85 @@ class Pagination extends Component {
             {pageNumber}
           </li>
         ))}
+
+        {this.renderMoreNext()}
       </ul>
     );
   };
 
+  renderMoreNext = () => {
+    const { paginationScale, totalPage } = this.state;
+    const lastPageNumber = totalPage;
+
+    // if last page number do not exist in the paginationScale arr
+    // render ... and lastPage number
+    if (paginationScale.indexOf(lastPageNumber) === -1) {
+      return (
+        <>
+          <li id="more-next" className="pagination-page-item">
+            ...
+          </li>
+          <li id={lastPageNumber} className="pagination-page-item">
+            {lastPageNumber}
+          </li>
+        </>
+      );
+    }
+    return null;
+  };
+
+  renderMorePrev = () => {
+    const { paginationScale } = this.state;
+    const firstPageNumber = 1;
+    // if first page number do not exist in the paginationScale arr
+    // render ... and firstPage number
+    if (paginationScale.indexOf(firstPageNumber) === -1) {
+      return (
+        <>
+          <li id={firstPageNumber} className="pagination-page-item">
+            {firstPageNumber}
+          </li>
+          <li id="more-prev" className="pagination-page-item">
+            ...
+          </li>
+        </>
+      );
+    }
+  };
+
   handlePaginationChange = (e) => {
     const { currentPage, onChange } = this.props;
+    const { paginationScale } = this.state;
+
     const id = e.target.id;
     let newCurrentPage = 0;
 
     if (!id) return;
 
-    // user click btn-prev
-    if (id === "btn-prev") {
-      if (this.isFirstPage()) return;
-      newCurrentPage = currentPage - 1;
-    }
+    switch (id) {
+      case "btn-prev":
+        if (this.isFirstPage()) return;
+        newCurrentPage = currentPage - 1;
+        break;
 
-    // user click btn-next
-    if (id === "btn-next") {
-      if (this.isLastPage()) return;
-      newCurrentPage = currentPage + 1;
+      case "more-prev":
+        const firstNumberInPaginationScale = paginationScale[0];
+        newCurrentPage = firstNumberInPaginationScale - 1;
+        break;
+
+      case "btn-next":
+        if (this.isLastPage()) return;
+        newCurrentPage = currentPage + 1;
+        break;
+
+      case "more-next":
+        const lastNumberInPaginationScale =
+          paginationScale[paginationScale.length - 1];
+        newCurrentPage = lastNumberInPaginationScale + 1;
+        break;
+
+      default:
+        break;
     }
 
     // user click page number
@@ -96,15 +163,17 @@ class Pagination extends Component {
       newCurrentPage = Number(id);
     }
 
-    onChange(newCurrentPage);
+    if (newCurrentPage) {
+      onChange(newCurrentPage);
+    }
   };
 
   isFirstPage = () => this.props.currentPage === 1;
 
   isLastPage = () => {
     const { currentPage, pageLimit, totalCount } = this.props;
-    const totalPage = getTotalPage(totalCount, pageLimit);
-    console.log({ totalPage, currentPage });
+    const { totalPage } = this.state;
+    // const totalPage = getTotalPage(totalCount, pageLimit);
     return currentPage === totalPage;
   };
 
