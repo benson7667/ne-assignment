@@ -53,7 +53,7 @@ class Table extends Component {
     const { dataSource } = this.props;
 
     return (
-      <table className="table-container">
+      <table id="table-comp" className="table-container">
         <thead className="table-head">
           <tr>{this.renderTitleColumns()}</tr>
         </thead>

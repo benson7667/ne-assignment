@@ -202,7 +202,7 @@ class Pagination extends Component {
 
   render() {
     return (
-      <div className="pagination-container">
+      <div id="pagination-comp" className="pagination-container">
         <div>{this.renderPagingInfo()}</div>
 
         <div
