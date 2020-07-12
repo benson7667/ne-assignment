@@ -22,3 +22,6 @@ docker build -t benson7667/ne-assignment .
 docker run -d -p 3000:3000 benson7667/ne-assignment:latest
 ```
 Open [http://localhost:3000](http://localhost:3000) with your browser view the application.
+
+## Hosting URL
+### https://ne-assignment.vercel.app/
