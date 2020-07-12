@@ -1,3 +1,12 @@
+## Techstack
+- React
+- NextJs
+- Sass
+- Jest
+- Enzyme
+- Babel
+- Docker
+
 ## Getting Started
 ### Prerequisite
 - Install nodejs on your machine: https://nodejs.org/en/
@@ -25,3 +34,9 @@ Open [http://localhost:3000](http://localhost:3000) with your browser view the a
 
 ## Hosting URL
 ### https://ne-assignment.vercel.app/
+
+## Others
+Feel free to visit other assignment I have done recently
+- https://github.com/benson7667/razer-assignment
+- https://github.com/benson7667/lead-iq
+- https://github.com/benson7667/bytedance-showcase
