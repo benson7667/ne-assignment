@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import moment from "moment";
 
-import { IconButton, Table, Pagination } from "../components";
+import { Banner, IconButton, Table, Pagination } from "../components";
 
 import { DO_MMM_YYYY } from "../constants/dateTimeFormat";
 import { DEFAULT_PAGINATION } from "../constants/pagination";
@@ -155,7 +155,14 @@ class Home extends Component {
     const firstIndex = currentPage * pageLimit - pageLimit;
 
     return (
-      <div style={{ maxWidth: 1280, margin: "0 auto", padding: 20 }}>
+      <div
+        style={{
+          maxWidth: 1280,
+          margin: "0 auto",
+          padding: 20,
+          marginBottom: 50,
+        }}
+      >
         <Table
           columns={getColumns(firstIndex)}
           dataSource={couponList}
@@ -167,6 +174,10 @@ class Home extends Component {
           pageLimit={pageLimit}
           onChange={this.handlePaginationChange}
         />
+
+        <div className="flex" style={{ justifyContent: "flex-end" }}>
+          <Banner />
+        </div>
       </div>
     );
   }

@@ -1,0 +1,13 @@
+@import "../../styles/colors.scss";
+
+.banner {
+  &-container {
+    padding: 0 15px;
+    border-radius: 5px;
+    border: 1px solid $color-orange-500;
+    background-color: $color-orange-ce;
+    font-size: 14px;
+    // line-height: 1.5;
+    color: $color-grey-83;
+  }
+}
