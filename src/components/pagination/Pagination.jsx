@@ -87,6 +87,16 @@ class Pagination extends Component {
     const { paginationScale, totalPage } = this.state;
     const lastPageNumber = totalPage;
 
+    // eg: when user are in page 7, paginationScale = [5,6,7,8,9], we dont need render ... anymore
+    // instead, just render pageNumber 10 to form [5,6,7,8,9,10]
+    if (paginationScale[paginationScale.length - 1] + 1 === lastPageNumber) {
+      return (
+        <li id={lastPageNumber} className="pagination-page-item">
+          {lastPageNumber}
+        </li>
+      );
+    }
+
     // if last page number do not exist in the paginationScale arr
     // render ... and lastPage number
     if (paginationScale.indexOf(lastPageNumber) === -1) {
@@ -107,6 +117,17 @@ class Pagination extends Component {
   renderMorePrev = () => {
     const { paginationScale } = this.state;
     const firstPageNumber = 1;
+
+    // eg: when user are in page 4, paginationScale = [2,3,4,5,6], we dont need render ... anymore
+    // instead, just render pageNumber 1 to form [1,2,3,4,5,6]
+    if (paginationScale[0] - 1 === 1) {
+      return (
+        <li id={firstPageNumber} className="pagination-page-item">
+          {firstPageNumber}
+        </li>
+      );
+    }
+
     // if first page number do not exist in the paginationScale arr
     // render ... and firstPage number
     if (paginationScale.indexOf(firstPageNumber) === -1) {
@@ -121,6 +142,8 @@ class Pagination extends Component {
         </>
       );
     }
+
+    return null;
   };
 
   handlePaginationChange = (e) => {
