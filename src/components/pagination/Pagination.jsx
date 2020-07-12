@@ -3,9 +3,17 @@ import { number, func } from "prop-types";
 import cx from "classnames";
 import "./styles.scss";
 
+// maximum will just render 1 -> 5 pagination number
 const MAX_PAGES_NUMBER_ARR = [1, 2, 3, 4, 5];
 
 class Pagination extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      paginationNumberArr: [],
+    };
+  }
+
   renderPagingInfo = () => {
     const { currentPage, totalCount, pageLimit } = this.props;
     const maxIndex = currentPage * pageLimit;
@@ -52,29 +60,26 @@ class Pagination extends Component {
     const id = e.target.id;
     let newCurrentPage = 0;
 
-    switch (id) {
-      case "btn-prev":
-        if (this.isFirstPage()) return;
-        newCurrentPage = currentPage - 1;
-        break;
+    if (!id) return;
 
-      case "btn-next":
-        if (this.isLastPage()) return;
-        newCurrentPage = currentPage + 1;
-        break;
+    // user click btn-prev
+    if (id === "btn-prev") {
+      if (this.isFirstPage()) return;
+      newCurrentPage = currentPage - 1;
+    }
 
-      default:
-        break;
+    // user click btn-next
+    if (id === "btn-next") {
+      if (this.isLastPage()) return;
+      newCurrentPage = currentPage + 1;
     }
 
     // user click page number
-    if (MAX_PAGES_NUMBER_ARR.indexOf(id)) {
-      onChange(Number(id));
+    if (id !== "btn-prev" && id !== "btn-next" && Number(id) > 0) {
+      newCurrentPage = Number(id);
     }
 
-    if (newCurrentPage) {
-      onChange(newCurrentPage);
-    }
+    onChange(newCurrentPage);
   };
 
   isFirstPage = () => this.props.currentPage === 1;
