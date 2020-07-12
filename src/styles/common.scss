@@ -7,16 +7,30 @@
 .justify-center {
   justify-content: center;
 }
+.justify-end {
+  justify-content: flex-end;
+}
 .items-center {
   align-items: center;
 }
 
+// padding
+.pa20 {
+  padding: 20px;
+}
+
 // margin
+.mh-auto {
+  margin: 0 auto;
+}
 .ml8 {
   margin-left: 8px;
 }
 .mt4 {
   margin-top: 4px;
+}
+.mb50 {
+  margin-bottom: 50px;
 }
 
 // color
