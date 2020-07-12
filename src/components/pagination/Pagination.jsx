@@ -1,18 +1,49 @@
 import React, { Component } from "react";
 import { number, func } from "prop-types";
 import cx from "classnames";
+
+import { getPaginationScale, getTotalPage } from "../../utils/pagination";
 import "./styles.scss";
 
-// maximum will just render 1 -> 5 pagination number
-const MAX_PAGES_NUMBER_ARR = [1, 2, 3, 4, 5];
+// if totalPage > 5, we just show 5 pages in pagination scale
+const PAGINATION_SCALE_ARR = [1, 2, 3, 4, 5];
 
 class Pagination extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      paginationNumberArr: [],
+      paginationScale: this.initPaginationScale(),
     };
   }
+
+  componentDidUpdate(prevProps) {
+    const { currentPage, pageLimit, totalCount } = this.props;
+    const { paginationScale } = this.state;
+
+    // page changed
+    if (prevProps.currentPage !== currentPage) {
+      const totalPage = getTotalPage(totalCount, pageLimit);
+      const newPaginationScale = getPaginationScale(
+        paginationScale,
+        currentPage,
+        totalPage
+      );
+      this.setState({ paginationScale: newPaginationScale });
+    }
+  }
+
+  initPaginationScale = () => {
+    const { totalCount, pageLimit } = this.props;
+    const totalPage = getTotalPage(totalCount, pageLimit);
+
+    if (totalPage > 5) return PAGINATION_SCALE_ARR;
+
+    const arr = [];
+    for (let i = 0; i < totalPage; i++) {
+      arr.push(i + 1);
+    }
+    return arr;
+  };
 
   renderPagingInfo = () => {
     const { currentPage, totalCount, pageLimit } = this.props;
@@ -21,38 +52,24 @@ class Pagination extends Component {
   };
 
   renderPagingNumber = () => {
-    const totalPage = this.getTotalPage();
-    const numbersArr = this.buildNumberArr(totalPage);
+    const { paginationScale } = this.state;
 
     return (
       <ul className="pagination-page-list">
-        {numbersArr.map((number) => (
+        {paginationScale.map((pageNumber) => (
           <li
-            id={number}
-            key={number}
+            id={pageNumber}
+            key={pageNumber}
             className={cx({
               "pagination-page-item": true,
-              active: number === this.props.currentPage,
+              active: pageNumber === this.props.currentPage,
             })}
           >
-            {number}
+            {pageNumber}
           </li>
         ))}
       </ul>
     );
-  };
-
-  buildNumberArr = (totalPage) => {
-    // we will just render pagination 1 -> 5 when there is more than 5 pages
-    if (totalPage > 5) {
-      return MAX_PAGES_NUMBER_ARR;
-    }
-
-    const arr = [];
-    for (let i = 0; i < totalPage; i++) {
-      arr.push(i + 1);
-    }
-    return arr;
   };
 
   handlePaginationChange = (e) => {
@@ -85,21 +102,10 @@ class Pagination extends Component {
   isFirstPage = () => this.props.currentPage === 1;
 
   isLastPage = () => {
-    const { currentPage } = this.props;
-    const totalPage = this.getTotalPage();
+    const { currentPage, pageLimit, totalCount } = this.props;
+    const totalPage = getTotalPage(totalCount, pageLimit);
+    console.log({ totalPage, currentPage });
     return currentPage === totalPage;
-  };
-
-  getTotalPage = () => {
-    const { totalCount, pageLimit } = this.props;
-    // eg: totalCount: 81, pageLimit: 20, we will still have total 5 pages
-    // eg: totalCount: 100, pageLimit: 20, we have total 5 pages
-    const totalPage =
-      totalCount % pageLimit === 0
-        ? Math.floor(totalCount / pageLimit)
-        : Math.floor(totalCount / pageLimit) + 1;
-
-    return totalPage;
   };
 
   render() {
