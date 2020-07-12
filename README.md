@@ -16,7 +16,7 @@ Open [http://localhost:3000](http://localhost:3000) with your browser view the a
 ### Prerequisite
 - Get Docker on your machine: https://docs.docker.com/get-docker/
 
-Run the docker command on your terminal
+Go to your terminal and locate to the root directory, run the docker command below:
 ```
 docker build -t benson7667/ne-assignment .
 docker run -d -p 3000:3000 benson7667/ne-assignment:latest
