@@ -30,11 +30,6 @@ export function getPaginationScale(currArr, newCurrPage, totalPage) {
       currArr.splice(-1, 1);
       steps--;
     }
-
-    // if one more unshow item is last page, display it together
-    // if (currArr[currArr.length - 1] + 1 === totalPage) {
-    //   return [...currArr, totalPage];
-    // }
     return currArr;
   }
 
@@ -47,11 +42,6 @@ export function getPaginationScale(currArr, newCurrPage, totalPage) {
       currArr.splice(0, 1);
       steps--;
     }
-
-    // if one more unshow page is first page, display it together
-    // if (currArr[0] - 1 === 1) {
-    //   return [1, ...currArr];
-    // }
     return currArr;
   }
 }
