@@ -35,6 +35,13 @@ docker run -d -p 3000:3000 benson7667/ne-assignment:latest
 ```
 Open [http://localhost:3000](http://localhost:3000) with your browser view the application.
 
+## Run Test
+```bash
+npm run test
+# or
+yarn run test
+```
+
 ## Others
 Feel free to visit other assignment I have done recently
 - https://github.com/benson7667/razer-assignment
